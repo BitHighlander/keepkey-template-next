@@ -67,10 +67,9 @@ const getWalletByChain = async (keepkey:any, chain:any) => {
 };
 
 
-export default function Wallet() {
+export default function Wallet({setKeepKey}:any) {
     const [asset, setAsset] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
-    const [keepkey, setKeepkey] = useState<any>(null);
     // const [destination, setDestination] = useState<string>(""); // Add destination state if required
     // const { transfer, isTransferring, error } = useTransfer(); // Corrected to useTransfer
     //useEffect
@@ -178,7 +177,7 @@ export default function Wallet() {
             console.log("Fuck you fucker")
             let keepkey = await initWallet();
             console.log("keepkey: ", keepkey);
-            setKeepkey(keepkey);
+            setKeepKey(keepkey);
         } catch (error) {
             console.error("Failed to initialize wallet", error);
         }
