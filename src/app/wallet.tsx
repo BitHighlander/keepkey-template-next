@@ -90,7 +90,7 @@ export default function Wallet({setKeepKey}:any) {
             //     'THOR'
             // ]
 
-            const chains = ['BTC', 'ETH']; // Example chains
+            const chains = ['BTC', 'ETH', 'MAYA']; // Example chains
             const { keepkeyWallet } = await import('@coinmasters/wallet-keepkey');
             const walletKeepKey: KeepKeyWallet = {
                 type: 'KEEPKEY',

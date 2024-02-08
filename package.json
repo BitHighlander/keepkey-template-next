@@ -19,9 +19,9 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@coinmasters/core": "^8.0.10",
-    "@coinmasters/helpers": "^8.0.10",
-    "@coinmasters/wallet-keepkey": "10.0.11",
+    "@coinmasters/core": "^8.0.12",
+    "@coinmasters/helpers": "^8.0.12",
+    "@coinmasters/wallet-keepkey": "10.0.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
