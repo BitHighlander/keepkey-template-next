@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Wallet from "./wallet";
 import { useState, useEffect } from "react";
-
+import { formatCacao } from "@/utils/formatBigInt";
 // Define interface for a single balance item
 interface BalanceItem {
     address: string;
@@ -76,7 +76,7 @@ export default function Home() {
                                 {data.wallet.balance.map((balance, index) => (
                                     <Flex key={index}>
                                         <Text fontSize="md" mt={1}>
-                                            Balance: {String(balance.bigIntValue)} {balance.symbol}
+                                            Balance: {formatCacao(balance.bigIntValue, balance.decimalMultiplier)} {balance.symbol}
                                         </Text>
                                         <Button
                                             onClick={() => {

@@ -1,3 +1,3 @@
-export function formatEthBalance(balance: string): string {
-    return balance;
+export function formatCacao(bigIntValue: bigint, decimalMultiplier: bigint) {
+    return (bigIntValue / decimalMultiplier).toString();
 }
