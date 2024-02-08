@@ -71,7 +71,7 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
             //     'THOR'
             // ]
 
-            const chains = ['BTC', 'ETH', 'MAYA']; // Example chains
+            const chains = ['MAYA']; // Example chains
             const { keepkeyWallet } = await import('@coinmasters/wallet-keepkey');
             const walletKeepKey: KeepKeyWallet = {
                 type: 'KEEPKEY',
@@ -199,15 +199,21 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
 
     return (
         <div>
-            <Button size={'xl'}
-                onClick={init}>
+            <Button
+                p={5}
+                onClick={init}
+                borderRadius={5}
+                backgroundColor={"#2ECC71"}
+            >
                 Connect Wallet
             </Button>
             <br />
-            <Button size={'xl'}
-                onClick={handleTransfer}>
+            {/* <Button size={'xl'}
+                onClick={handleTransfer}
+                p={5}
+            >
                 Transfer 0.00001 ETH
-            </Button>
+            </Button> */}
         </div>
     );
 }
