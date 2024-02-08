@@ -7,7 +7,10 @@ import { useState, useEffect } from "react";
 
 interface WalletData {
     address: string;
-    balances: { amount: string }[];
+    balance: {
+        ticker: string;
+        total: string;
+    }[];
 }
 
 interface KeepKeyData {
@@ -24,7 +27,7 @@ export default function Home() {
     if (!keepKey) {
         return (
             <Center h="100vh">
-                <Wallet setKeepKey={setKeepKey}/>
+                <Wallet keepkey={keepKey} setKeepKey={setKeepKey} />
                 <Spinner size="xxxl" />
             </Center>
         );
@@ -35,7 +38,7 @@ export default function Home() {
             <div className={styles.description}>
                 <p>Get started with KeepKey</p>
                 <div>
-                    <Wallet setKeepKey={setKeepKey} />
+                    <Wallet keepKey={keepKey} setKeepKey={setKeepKey} />
                 </div>
             </div>
 
@@ -44,7 +47,7 @@ export default function Home() {
                     <Box key={currency} p={5} shadow="md" borderWidth="1px">
                         <Text fontSize="xl">{currency}</Text>
                         <Text>Address: {data.wallet.address}</Text>
-                        {data.wallet.balances.map((balance, index) => (
+                        {data.wallet.balance.map((balance, index) => (
                             <Text key={index}>Balance: {balance.ticker || balance.total}</Text>
                         ))}
                     </Box>
