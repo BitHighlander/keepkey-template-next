@@ -53,12 +53,6 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
     const [destination, setDestination] = useState<string>(""); // Add destination state if required
     const [keepkeyInstance, setKeepKeyInstance] = useState<KeepKeyWallet | null>(null);
 
-    //useEffect
-
-    //start the context provider
-    // useEffect(() => {
-    //     initWallet()
-    // }, []);
 
     let initWallet = async (): Promise<KeepKeyWallet> => {
         try {
@@ -161,11 +155,9 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
         }
     };
 
-    const handleTransfer = async (e: React.FormEvent) => {
+    const handleTransfer = async (e: React.FormEvent, asset: string, amount: number, destination: string) => {
         e.preventDefault();
-        let asset = "ETH"
-        let amount = 0.00001
-        let destination = "0x41CB654D1F47913ACAB158a8199191D160DAbe4A"
+
         if (!asset || !amount) return;
         //@ts-ignore
         if (asset === "ETH" && keepkeyInstance.ETH.walletMethods) {

@@ -5,6 +5,10 @@ import styles from "./page.module.css";
 import Wallet from "./wallet";
 import { useState, useEffect } from "react";
 import { formatCacao } from "@/utils/formatBigInt";
+import { useHandleTransfer } from './hooks/useHandleTransfer'; // Adjust the path as needed
+
+
+
 // Define interface for a single balance item
 interface BalanceItem {
     address: string;
@@ -34,6 +38,7 @@ interface WalletMethods {
     broadcastTransaction: Function;
     call: Function;
     createContract: Function;
+    transfer: (payload: any) => Promise<string>;
     // Add the rest of the methods as needed with specific signatures if known
 }
 
@@ -51,7 +56,8 @@ interface WalletData {
 export default function Home() {
     const [keepKey, setKeepKey] = useState<WalletData | null>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [amountToSend, setAmountToSend] = useState("");
+    const [amountToSend, setAmountToSend] = useState("0.00001");
+    const [destination, setDestination] = useState("maya1g9el7lzjwh9yun2c4jjzhy09j98vkhfxfqkl5k");
     const [selectedBalance, setSelectedBalance] = useState<BalanceItem | null>(null); // Step 1
 
 
@@ -63,6 +69,21 @@ export default function Home() {
             </Center>
         );
     }
+
+    // Initialize the hook at the top level of your component.
+    const handleTransfer = useHandleTransfer(keepKey);
+
+    const onClickSend = async () => {
+
+        try {
+            const txHash = await handleTransfer("CACAO", parseFloat(amountToSend), destination);
+            onClose();
+        } catch (error) {
+            console.error("Error initiating transfer:", error);
+        }
+    };
+
+
 
     return (
         <>
@@ -107,16 +128,15 @@ export default function Home() {
                         <ModalBody>
                             <Text mb={3}>Enter the amount to send:</Text>
                             <Input placeholder="Amount" value={amountToSend} onChange={(e) => setAmountToSend(e.target.value)} />
+                            <Input placeholder="Destination" value={destination} onChange={(e) => setDestination(e.target.value)} />
+
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button colorScheme="blue" mr={3} onClick={() => {
-                                console.log(`Sending ${amountToSend} ${selectedBalance?.symbol}`);
-                                // Add the logic to send the balance to the destination
-                                onClose();
-                            }}>
+                            <Button colorScheme="blue" mr={3} onClick={onClickSend}>
                                 Send
                             </Button>
+
                             <Button variant="ghost" onClick={onClose}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>
