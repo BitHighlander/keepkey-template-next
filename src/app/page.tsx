@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { formatCacao } from "@/utils/formatBigInt";
 import { useHandleTransfer } from './hooks/useHandleTransfer'; // Adjust the path as needed
 import { FaCopy } from 'react-icons/fa';
+import { keyframes } from '@emotion/react';
 
 
 // Define interface for a single balance item
@@ -19,7 +20,7 @@ interface BalanceItem {
     isGasAsset: boolean;
     isSynthetic: boolean;
     symbol: string;
-    tax?: any; // Since tax is undefined, its type is any or you can specify a more precise type if known
+    tax?: any;
     ticker: string;
     type: string;
 }
@@ -56,9 +57,10 @@ interface WalletData {
 export default function Home() {
     const [keepKey, setKeepKey] = useState<WalletData | null>(null);
     const [isSendFormVisible, setIsSendFormVisible] = useState(false);
-    const [amountToSend, setAmountToSend] = useState("0.00001");
-    const [destination, setDestination] = useState("maya1g9el7lzjwh9yun2c4jjzhy09j98vkhfxfqkl5k");
+    const [amountToSend, setAmountToSend] = useState("");
+    const [destination, setDestination] = useState("");
     const [selectedBalance, setSelectedBalance] = useState<BalanceItem | null>(null);
+    const handleTransfer = useHandleTransfer(keepKey);
 
     if (!keepKey) {
         return (
@@ -68,7 +70,6 @@ export default function Home() {
         );
     }
 
-    const handleTransfer = useHandleTransfer(keepKey);
 
     const onClickSend = async () => {
         try {
@@ -79,11 +80,26 @@ export default function Home() {
         }
     };
 
+    // Test Wallet : maya1g9el7lzjwh9yun2c4jjzhy09j98vkhfxfqkl5k
+
+
     return (
         <>
             <main className={styles.main}>
                 <div className={styles.description}>
                     <VStack spacing={4} align="stretch" justify="center" width="100%" >
+                        <center>
+                            <Image
+                                src={"/maya.jpg"}
+                                alt="Maya Logo"
+                                width={200}
+                                height={200}
+                                style={{
+                                    borderRadius: "50%",
+
+                                }}
+                            />
+                        </center>
                         {Object.entries(keepKey).map(([currency, data]) => (
                             <Box key={currency} p={5} shadow="md" borderWidth="1px" borderRadius="lg" >
                                 <center>
@@ -119,23 +135,40 @@ export default function Home() {
 
                             <center>
 
-                                <Box p={5} borderWidth="1px" borderRadius="lg" mt={4} maxW={"50%"} >
-                                    <Flex justifyContent="space-between" alignItems="center" p={4} >
+                                <Box m={"10"} border="1px solid white" borderRadius="10px" mt={4} maxW={"80%"}>
+                                    <Flex justifyContent="center" alignItems="center" p={4} >
                                         <Box flex="1"></Box>
-                                        <Button color={"red"} bg={"transparent"} onClick={() => setIsSendFormVisible(false)}>X</Button>
+                                        <Button color={"white"} bg={"transparent"} onClick={() => setIsSendFormVisible(false)}>
+                                            X
+                                        </Button>
                                     </Flex>
-                                    <Flex p={4} flexDirection={"column"}
-                                    >
+                                    <Flex p={4} flexDirection={"column"}>
+                                        <Text fontSize="xl" fontWeight="bold" mb={3}>
+                                            Send {selectedBalance?.symbol}
+                                        </Text>
+                                        <Flex justifyContent={"right"}>
+
+                                            <Button
+                                                maxW={"30%"}
+                                                m={10}
+                                                borderRadius="5px"
+                                                background={"black"}
+                                            >
+
+
+                                                Max
+                                            </Button>
+                                        </Flex>
+
                                         <Input
-                                            placeholder="Amount"
+                                            placeholder={"Amount to Send"}
                                             value={amountToSend}
                                             onChange={(e) => setAmountToSend(e.target.value)}
                                             mb={3}
                                             borderRadius={5}
-
                                         />
                                         <Input
-                                            placeholder="Destination"
+                                            placeholder="maya...fxfqkl5k"
                                             value={destination}
                                             onChange={(e) => setDestination(e.target.value)}
                                             borderRadius={5}
@@ -147,6 +180,9 @@ export default function Home() {
                                                 onClick={onClickSend}
                                                 backgroundColor={"limegreen"}
                                                 borderRadius={5}
+                                                minW={"100px"}
+                                                minH={"40px"}
+                                                m={10}
                                             >
                                                 Send
                                             </Button>
@@ -154,6 +190,7 @@ export default function Home() {
 
                                     </Flex>
                                 </Box>
+
                             </center>
 
                         )}
