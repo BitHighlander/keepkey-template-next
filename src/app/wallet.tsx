@@ -145,7 +145,6 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
 
     const init = async () => {
         try {
-            console.log("Fuck you fucker")
             let keepkeyInit = await initWallet();
             console.log("keepkey: ", keepkeyInit);
             setKeepKey(keepkeyInit);

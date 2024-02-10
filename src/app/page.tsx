@@ -6,7 +6,7 @@ import Wallet from "./wallet";
 import { useState, useEffect } from "react";
 import { formatCacao } from "@/utils/formatBigInt";
 import { useHandleTransfer } from './hooks/useHandleTransfer'; // Adjust the path as needed
-
+import { Logo } from './Logo';
 
 
 // Define interface for a single balance item
@@ -96,6 +96,7 @@ export default function Home() {
                                 <Text fontSize="md">Address: {data.wallet.address}</Text>
                                 {data.wallet.balance.map((balance, index) => (
                                     <Flex key={index}>
+                                        <Logo h="40vmin" pointerEvents="none" />
                                         <Text fontSize="md" mt={1}>
                                             Balance: {formatCacao(balance.bigIntValue, balance.decimalMultiplier)} {balance.symbol}
                                         </Text>
@@ -120,6 +121,7 @@ export default function Home() {
                 <Modal isOpen={isOpen} onClose={onClose} isCentered>
                     <ModalOverlay />
                     <ModalContent>
+
                         {/* Using Flex to contain the header and close button */}
                         <Flex justifyContent="space-between" alignItems="center" p={4}>
                             <ModalHeader>Send {selectedBalance?.symbol}</ModalHeader>
