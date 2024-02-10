@@ -8,7 +8,7 @@ import { formatCacao } from "@/utils/formatBigInt";
 import { useHandleTransfer } from './hooks/useHandleTransfer'; // Adjust the path as needed
 import { FaCopy } from 'react-icons/fa';
 import { keyframes } from '@emotion/react';
-
+import { Logo } from './Logo';
 
 // Define interface for a single balance item
 interface BalanceItem {
@@ -98,6 +98,7 @@ export default function Home() {
 
                                 }}
                             />
+                            <Logo h="40vmin" pointerEvents="none" />
                         </center>
                         {Object.entries(keepKey).map(([currency, data]) => (
                             <Box key={currency} p={5} shadow="md" borderWidth="1px" borderRadius="lg" >
@@ -109,7 +110,6 @@ export default function Home() {
                                 {
                                     data.wallet.balance.map((balance, index) => (
                                         <Flex key={index} justify="space-between">
-                                            <Logo h="40vmin" pointerEvents="none" />
 
                                             <Text fontSize="md" mt={1}>
                                                 Balance: {formatCacao(balance.bigIntValue, balance.decimalMultiplier)} {balance.symbol}

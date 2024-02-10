@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coinmasters/core": "^8.0.15",
+    "@coinmasters/helpers": "^8.0.15",
+    "@coinmasters/wallet-keepkey": "10.0.16",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
@@ -20,9 +23,6 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
-    "@coinmasters/core": "^8.0.15",
-    "@coinmasters/helpers": "^8.0.15",
-    "@coinmasters/wallet-keepkey": "10.0.15",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

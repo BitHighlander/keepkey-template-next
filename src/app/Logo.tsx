@@ -14,5 +14,15 @@ export const Logo = props => {
     ? undefined
     : `${spin} infinite 20s linear`;
 
-  return <Image animation={animation} src={logo} {...props} />;
+  return                            <Image
+      animation={animation}
+      src={"/maya.jpg"}
+      alt="Maya Logo"
+      width={200}
+      height={200}
+      style={{
+        borderRadius: "50%",
+
+      }}
+  />;
 };
