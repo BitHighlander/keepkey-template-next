@@ -3,6 +3,9 @@
 
 import {
     Button,
+    Image,
+    Spinner,
+    VStack,
 } from '@chakra-ui/react';
 
 import { useState, useEffect } from "react";
@@ -52,7 +55,7 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
     const [amount, setAmount] = useState<string>("");
     const [destination, setDestination] = useState<string>(""); // Add destination state if required
     const [keepkeyInstance, setKeepKeyInstance] = useState<KeepKeyWallet | null>(null);
-
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     let initWallet = async (): Promise<KeepKeyWallet> => {
         try {
@@ -89,8 +92,6 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
             // @ts-ignore
             // Implement the addChain function with additional logging
             function addChain({ chain, walletMethods, wallet }) {
-                console.log(`Adding chain: ${chain}`);
-                console.log(`Chain data:`, { chain, walletMethods, wallet });
                 keepkey[chain] = {
                     walletMethods,
                     wallet
@@ -115,21 +116,18 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
                 addChain,
                 config: { keepkeyConfig, covalentApiKey, ethplorerApiKey, utxoApiKey },
             }
-            console.log("input: ", input)
 
             // Step 1: Invoke the outer function with the input object
             const connectFunction = walletKeepKey.wallet.connect(input);
 
             // Step 2: Invoke the inner function with chains and paths
             let kkApikey = await connectFunction(chains, paths);
-            console.log("kkApikey: ", kkApikey);
             localStorage.setItem('keepkeyApiKey', kkApikey);
 
             //got balances
             for (let i = 0; i < chains.length; i++) {
                 let chain = chains[i]
                 let walletData: any = await getWalletByChain(keepkey, chain);
-                console.log(chain + " walletData: ", walletData)
                 // keepkey[chain].wallet.address = walletData.address
                 keepkey[chain].wallet.balance = walletData.balance
             }
@@ -146,7 +144,6 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
     const init = async () => {
         try {
             let keepkeyInit = await initWallet();
-            console.log("keepkey: ", keepkeyInit);
             setKeepKey(keepkeyInit);
             setKeepKeyInstance(keepkeyInit)
         } catch (error) {
@@ -154,57 +151,29 @@ export default function Wallet({ setKeepKey, keepkey }: any) {
         }
     };
 
-    const handleTransfer = async (e: React.FormEvent, asset: string, amount: number, destination: string) => {
-        e.preventDefault();
-
-        if (!asset || !amount) return;
-        //@ts-ignore
-        if (asset === "ETH" && keepkeyInstance.ETH.walletMethods) {
-            try {
-                const assetString = `${asset}.${asset}`
-                await AssetValue.loadStaticAssets();
-                console.info("Amount Type: ", typeof (amount))
-
-                let assetValue = await AssetValue.fromString(
-                    assetString,
-                    amount
-                )
-                console.info("assetValue: ", assetValue)
-
-                let sendPayload = {
-                    assetValue,
-                    memo: '',
-                    recipient: destination,
-                }
-                console.info(sendPayload)
-                //@ts-ignore
-                const txHash = await keepkeyInstance.ETH.walletMethods.transfer(sendPayload);
-                console.log("txHash: ", txHash);
-                //@ts-ignore
-                console.log("Transfer successful");
-            } catch (error) {
-                console.error("Transfer failed", error);
-            }
-        }
-    };
-
     return (
         <div>
-            <Button
-                p={5}
-                onClick={init}
-                borderRadius={5}
-                backgroundColor={"#2ECC71"}
-            >
-                Connect Wallet
-            </Button>
-            <br />
-            {/* <Button size={'xl'}
-                onClick={handleTransfer}
-                p={5}
-            >
-                Transfer 0.00001 ETH
-            </Button> */}
+            <VStack>
+                <Image
+                    src={"https://pbs.twimg.com/profile_images/1610392637814759424/MPu7ZSLt_400x400.jpg"}
+                    alt={"KeepKey Logo"}
+                    boxSize={"100px"}
+                    borderRadius={"100%"}
+                />
+                <Button
+                    leftIcon={<Image boxSize={"24px"} src={"https://keepkey.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fkeepkey_logo.407f5aca.png&w=3840&q=100"} />}
+                    p={5}
+                    onClick={init}
+                    borderRadius={5}
+                    backgroundColor={"black"}
+                >
+                    Connect Wallet
+                </Button>
+
+                {isLoaded ? <Spinner size="48px" /> : null}
+                <br />
+            </VStack>
+
         </div>
     );
 }
